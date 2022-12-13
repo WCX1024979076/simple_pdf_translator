@@ -71,6 +71,14 @@ function copyStaticFiles() {
     copy('static');
 }
 
+function copyPlugins() {
+    FileSystem.cpSync(
+        Path.join(__dirname, '..', 'plugins'),
+        Path.join(__dirname, '..', 'build', 'main', 'plugins'),
+        { recursive: true }
+    );
+}
+
 /*
 The working dir of Electron is build/main instead of src/main because of TS.
 tsc does not copy static files, so copy them over manually for dev server.
@@ -97,6 +105,7 @@ async function start() {
     rendererPort = devServer.config.server.port;
 
     copyStaticFiles();
+    copyPlugins();
     startElectron();
 
     const path = Path.join(__dirname, '..', 'src', 'main');

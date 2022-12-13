@@ -1,7 +1,7 @@
 {
-  "name": "electron-vue-template",
+  "name": "simple_pdf_translator",
   "version": "0.1.0",
-  "description": "A minimal Electron + Vue application",
+  "description": "A simple pdf viewer with translate function",
   "main": "build/main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
@@ -10,22 +10,34 @@
     "build:mac": "node scripts/build.js && electron-builder --mac",
     "build:linux": "node scripts/build.js && electron-builder --linux"
   },
-  "repository": "https://github.com/deluze/electron-vue-template",
+  "repository": "https://gitee.com/WCX1024979076/pdf-viewer",
   "author": {
-    "name": "Deluze",
-    "url": "https://github.com/Deluze"
+    "name": "WCX1024979076",
+    "url": "https://github.com/WCX1024979076"
   },
   "devDependencies": {
+    "@opentranslate/tencent": "^1.4.1",
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/cli": "^5.0.8",
+    "@vue/compiler-sfc": "^3.0.4",
+    "axios": "^1.2.1",
+    "axios-https-proxy-fix": "^0.17.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "electron": "^21.0.0",
     "electron-builder": "^23.6.0",
+    "element-plus": "^2.2.26",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "tslib": "^2.4.1",
     "typescript": "^4.8.4",
     "vite": "^3.1.6"
   },
   "dependencies": {
-    "vue": "^3.2.40"
+    "axios": "^1.2.1",
+    "element-plus": "^2.2.26",
+    "vue": "^3.2.40",
+    "axios-https-proxy-fix": "^0.17.1",
+    "tslib": "^2.4.1"
   }
 }

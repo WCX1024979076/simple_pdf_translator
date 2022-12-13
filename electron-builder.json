@@ -7,10 +7,11 @@
         "oneClick": false,
         "perMachine": false,
         "allowToChangeInstallationDirectory": true,
-        "shortcutName": "Electron App"
+        "shortcutName": "PDF划词翻译"
     },
     "win": {
-        "target": "nsis"
+        "target": "nsis",
+		"icon": "src/main/static/icon.ico"
     },
     "linux":  {
         "target": ["snap"]
@@ -25,6 +26,11 @@
         {
             "from": "src/main/static",
             "to": "static",
+            "filter": ["**/*"]
+        },
+		{
+            "from": "plugins",
+            "to": "plugins",
             "filter": ["**/*"]
         },
         "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",

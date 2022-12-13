@@ -1,73 +1,63 @@
-<div align="center"> 
-  
-![image](https://user-images.githubusercontent.com/32544586/163651496-2589c0b0-4151-4941-9d90-4275eea5fd83.png)
+# PDF划词翻译
 
-A simple starter template for a **Vue3** + **Electron** TypeScript based application, including **ViteJS** and **Electron Builder**.
-</div>
+一个简单的PDF划词翻译软件。
 
-## About
+![image-20230123142242157](E:\pdf_viewer\README.assets\image-20230123142242157.png)
 
-This template utilizes [ViteJS](https://vitejs.dev) for building and serving your (Vue powered) front-end process, it provides Hot Reloads (HMR) to make development fast and easy ⚡ 
+## 关于
 
-Building the Electron (main) process is done with [Electron Builder](https://www.electron.build/), which makes your application easily distributable and supports cross-platform compilation 😎
+这是一个开源的PDF划词翻译软件，前端渲染采用[Element-UI](https://element-plus.gitee.io/zh-CN/)和[PDF.js](https://mozilla.github.io/pdf.js/)；后端采用插件机制完成翻译引擎的管理，目前支持的翻译引擎有**百度翻译**、**谷歌翻译**、**有道翻译**和**腾讯翻译**，如需接入三方api可以参考PDF划词翻译插件开发。
 
-## Getting started
+## 使用指南
 
-Click the green **Use this template** button on top of the repository, and clone your own newly created repository.
+### 一、翻译引擎配置
 
-**Or..**
+在使用之前需要进行翻译引擎配置，下面分别介绍一下如何进行配置。
 
-Clone this repository: `git clone git@github.com:Deluze/electron-vue-template.git`
+#### 1）百度翻译
 
+百度翻译api接入需要申请appid和密钥，申请教程如下。
 
-### Install dependencies ⏬
+[https://talentranslate.com/docs/services/common/baidu](https://talentranslate.com/docs/services/common/baidu)
 
-```bash
-npm install
-```
+#### 2）腾讯翻译
 
-### Start developing ⚒️
+腾讯翻译api接入需要申请SecretId和SecretKey，申请教程如下。
 
-```bash
-npm run dev
-```
+[https://talentranslate.com/docs/services/common/tencent](https://talentranslate.com/docs/services/common/tencent)
 
-## Additional Commands
+#### 3）谷歌翻译
 
-```bash
-npm run dev # starts application with hot reload
-npm run build # builds application, distributable files can be found in "dist" folder
+谷歌翻译无需申请相关密钥，但是需要配置代理ip和代理端口（由于谷歌翻译关闭了国内接口，只能通过科学上网来访问谷歌翻译国际版）
 
-# OR
+#### 4）有道翻译
 
-npm run build:win # uses windows as build target
-npm run build:mac # uses mac as build target
-npm run build:linux # uses linux as build target
-```
+有道翻译需要申请APP ID和秘钥，申请教程如下。
 
-Optional configuration options can be found in the [Electron Builder CLI docs](https://www.electron.build/cli.html).
-## Project Structure
+[https://blog.csdn.net/weixin_44253490/article/details/126365385](https://blog.csdn.net/weixin_44253490/article/details/126365385)
 
-```bash
-- scripts/ # all the scripts used to build or serve your application, change as you like.
-- src/
-  - main/ # Main thread (Electron application source)
-  - renderer/ # Renderer thread (VueJS application source)
-```
+如过在申请过程中遇到任何问题可通过邮箱/QQ私聊我，我可以提供相关apiid和密钥或者提供申请帮助。
 
-## Using static files
+### 二、打开文件
 
-If you have any files that you want to copy over to the app directory after installation, you will need to add those files in your `src/main/static` directory.
+点击文件->打开文件 或 点击图中标记的按钮均可打开相应的pdf，划词即可在右侧显示译文和原文。（注意pdf是文本类型而非图像，目前暂不支持ocr文字识别）
 
-#### Referencing static files from your main process
+![image-20230123143922255](E:\pdf_viewer\README.assets\image-20230123143922255.png)
 
-```ts
-/* Assumes src/main/static/myFile.txt exists */
+## 插件开发
 
-import {app} from 'electron';
-import {join} from 'path';
-import {readFileSync} from 'fs';
+见[PDF划词翻译插件开发文档](https://github.com/WCX1024979076/simple_pdf_translator_plugins)。
 
-const path = join(app.getAppPath(), 'static', 'myFile.txt');
-const buffer = readFileSync(path);
-```
+## TODO
+
+1、完善插件机制
+
+## 参考
+
+1、[electron-vue-template](https://github.com/Deluze/electron-vue-template)
+
+2、[PicGo插件机制](https://picgo.github.io/PicGo-Core-Doc/zh/dev-guide/cli.html)
+
+3、[pdf.js](https://mozilla.github.io/pdf.js/)
+
+4、[element-ui](https://element-plus.gitee.io/zh-CN/)

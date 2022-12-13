@@ -18,6 +18,12 @@ const config = defineConfig({
         emptyOutDir: true,
     },
     plugins: [vuePlugin()],
+    pluginOptions: {
+        electronBuilder: {
+          nodeIntegration: true,
+          preload: 'readerer/preload.js',
+        }
+      }
 });
 
 module.exports = config;
