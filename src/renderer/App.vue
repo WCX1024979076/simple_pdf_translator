@@ -55,8 +55,8 @@ export default {
     return {
       translate_options:[],
       previewUrl: "",
-      origin_text: this.origin_text,
-      translate_text: this.translate_text,
+      origin_text: "",
+      translate_text: "",
       translate_machine: "baidu",
       configList: {},
       ruleForm: {},
@@ -101,6 +101,10 @@ export default {
       this.$forceUpdate();
     },
     translate_select() {
+      if(this.origin_text.length == 0) {
+        this.$forceUpdate();
+        return ;
+      }
       translate(this.translate_machine, this.origin_text, (res) => {
         this.translate_text = res;
       });
