@@ -2,7 +2,7 @@
 
 一个简单的PDF划词翻译软件。
 
-![image-20230123142242157](README.assets\image-20230123142242157.png)
+![image-20230123142242157](https://github.com/WCX1024979076/simple_pdf_translator/raw/master/README.assets/image-20230123142242157.png)
 
 ## 关于
 
@@ -42,7 +42,7 @@
 
 点击文件->打开文件 或 点击图中标记的按钮均可打开相应的pdf，划词即可在右侧显示译文和原文。（注意pdf是文本类型而非图像，目前暂不支持ocr文字识别）
 
-![image-20230123143922255](README.assets\image-20230123143922255.png)
+![image-20230123143922255](https://github.com/WCX1024979076/simple_pdf_translator/raw/master/README.assets/image-20230123143922255.png)
 
 ## 插件开发
 
