@@ -1,8 +1,8 @@
-import { app, BrowserWindow, ipcMain, session, ipcRenderer, protocol, Menu, dialog, shell} from 'electron';
+import { app, BrowserWindow, ipcMain, session, protocol, Menu, dialog } from 'electron';
 import { join } from 'path';
+import { plugins_load, plugins_translate, plugins_config, plugins_reload, plugins_get_config } from './plugins';
 const fs = require('fs');
 const url = require('url')
-import { plugins_load, plugins_translate, plugins_config, plugins_reload, plugins_get_config} from './plugins';
 const config = require("./config");
 
 let config_path = join(app.getPath('userData'), 'resouce', 'config.json');
@@ -18,13 +18,12 @@ function createWindow() {
       contextIsolation: true,
     }
   });
-  
-  try{
+
+  try {
     fs.mkdirSync(join(app.getPath('userData'), 'resouce'));
-  } catch(e) {}
+  } catch (e) { }
   config.load(config_path);
   config.set_val("plugins_path", plugins_path);
-  // config.set_val("plugins_path", plugins_path);
   plugins_load(mainWindow, config);
 
   if (process.env.NODE_ENV === 'development') {
@@ -37,18 +36,17 @@ function createWindow() {
   }
 
   mainWindow.webContents.on('will-navigate', function (e, url) {
-      e.preventDefault();
-      console.log(url);
-      const mainWindow2 = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-          preload: join(__dirname, 'preload.js'),
-          nodeIntegration: false,
-          contextIsolation: true,
-        }
-      });
-      mainWindow2.loadURL(url);
+    e.preventDefault();
+    const mainWindow2 = new BrowserWindow({
+      width: 800,
+      height: 600,
+      webPreferences: {
+        preload: join(__dirname, 'preload.js'),
+        nodeIntegration: false,
+        contextIsolation: true,
+      }
+    });
+    mainWindow2.loadURL(url);
   });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate([{
@@ -57,7 +55,6 @@ function createWindow() {
       { label: "新建", accelerator: "ctrl+n", click: () => { console.log("新建文件") } },
       {
         label: '打开', accelerator: "ctrl+o", click: () => {
-          console.log("打开文件");
           dialog.showOpenDialog({
             title: '打开PDF',
             filters: [
@@ -66,7 +63,7 @@ function createWindow() {
             ],
             buttonLabel: '打开'
           }).then((res) => {
-            if(res.filePaths[0] && res.filePaths[0] != undefined) {
+            if (res.filePaths[0] && res.filePaths[0] != undefined) {
               mainWindow.webContents.send('update_file', res.filePaths[0]);
             }
           }).catch((err) => {
@@ -89,7 +86,6 @@ function createWindow() {
 app.whenReady().then(() => {
   protocol.registerStreamProtocol('pdf', (request, callback) => {
     const filePath = url.fileURLToPath('file://' + request.url.slice('pdf://'.length));
-    console.log(filePath);
     callback(fs.createReadStream(filePath))
   })
 

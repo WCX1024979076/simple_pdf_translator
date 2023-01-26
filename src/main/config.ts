@@ -1,4 +1,3 @@
-const path = require('path');
 const fs = require('fs');
 
 let config = {};
@@ -12,18 +11,14 @@ function get_val(key: string) {
 }
 
 function save(json_path) {
-  // let json_path = path.join(process.cwd(), '/resources/config.json'); // process.cwd()即为路径
   fs.writeFile(json_path, JSON.stringify(config), function (err) {
     if (err) {
       console.log(err);
-    } else {
-      console.log('ok');
     }
   })
 }
 
 function load(json_path) {
-  // let json_path = path.join(process.cwd(), '/resources/config.json'); // process.cwd()即为路径
   try {
     let data = fs.readFileSync(json_path);
     if (data) {

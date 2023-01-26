@@ -56,6 +56,16 @@
 
 1、完善插件机制
 
+2、增加保存历史翻译pdf功能
+
+3、优化代码
+
+4、增加相关更新推送机制，利用Github和Gitee进行更新下发。
+
+5、增加Github Action，完成自动构建与发布。
+
+6、完善日志记录，目前日志为直接console.log，计划增加相关日志处理插件完成日志收集和可视化展示。
+
 ## 参考
 
 1、[electron-vue-template](https://github.com/Deluze/electron-vue-template)

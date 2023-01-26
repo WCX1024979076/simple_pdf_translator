@@ -10,7 +10,7 @@
     "build:mac": "node scripts/build.js && electron-builder --mac",
     "build:linux": "node scripts/build.js && electron-builder --linux"
   },
-  "repository": "https://gitee.com/WCX1024979076/pdf-viewer",
+  "repository": "https://github.com/WCX1024979076/simple_pdf_translator",
   "author": {
     "name": "WCX1024979076",
     "url": "https://github.com/WCX1024979076"

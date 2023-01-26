@@ -5,13 +5,12 @@
     </iframe>
   </div>
   <div class="App" style="width:28%; height:98%;  position:absolute;margin-left: 71%;overflow:auto;">
-    <div class = "App-span">
-      <el-select v-model="translate_machine" placeholder="Select" @change="translate_select"
-        style="font-size:15px;">
+    <div class="App-span">
+      <el-select v-model="translate_machine" placeholder="Select" @change="translate_select" style="font-size:15px;">
         <el-option v-for="item in translate_options" :key="item.value" :label="item.label" :value="item.value"
           :disabled="item.disabled" />
       </el-select>
-      <el-button @click="translate_machine_change()">
+      <el-button @click="translate_machine_config()">
         翻译引擎配置
       </el-button>
     </div>
@@ -24,20 +23,20 @@
   </div>
 
   <el-dialog v-model="dialogVisible" title="翻译引擎配置" width="30%" :before-close="handleClose">
-      <el-form label-position="right" label-width="120px" :model="ruleForm" ref="form" size="mini">
-        <el-form-item v-for="(item, index) in configList" :label="item.name" :required="item.required" :prop="item.name"
-          :key="item.name + index">
-          <el-input v-if="item.type === 'input' || item.type === 'password'"
-            :type="item.type === 'password' ? 'password' : 'input'" v-model="ruleForm[item.name]"
-            :placeholder="item.message || item.name"></el-input>
-        </el-form-item>
-      </el-form>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="translate_machine_config_save()">
-          保存
-        </el-button>
-      </span>
+    <el-form label-position="right" label-width="120px" :model="ruleForm" ref="form" size="mini">
+      <el-form-item v-for="(item, index) in configList" :label="item.name" :required="item.required" :prop="item.name"
+        :key="item.name + index">
+        <el-input v-if="item.type === 'input' || item.type === 'password'"
+          :type="item.type === 'password' ? 'password' : 'input'" v-model="ruleForm[item.name]"
+          :placeholder="item.message || item.name"></el-input>
+      </el-form-item>
+    </el-form>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">取消</el-button>
+      <el-button type="primary" @click="translate_machine_config_save()">
+        保存
+      </el-button>
+    </span>
   </el-dialog>
 </template>
 
@@ -48,12 +47,8 @@ import { toRaw } from '@vue/reactivity'
 export default {
   name: 'App',
   data() {
-    let _this = this;
-    electron.ipcRenderer.invoke('get_plugins_config').then((data) => {
-      _this.translate_options = data;
-    })
     return {
-      translate_options:[],
+      translate_options: [],
       previewUrl: "",
       origin_text: "",
       translate_text: "",
@@ -65,20 +60,24 @@ export default {
   },
   mounted() {
     let iframe = document.getElementById('pdfviewer');
+    let _this = this;
+    electron.ipcRenderer.invoke('get_plugins_config').then((data) => {
+      _this.translate_options = data;
+    })
     iframe.addEventListener("load", () => {
-      this.getSelectText();
+      this.set_select_text_hook();
     });
     electronAPI.onUpdataFile((_event, file) => {
       this.previewUrl = "pdf://" + file;
       this.$forceUpdate();
-      this.getSelectText();
+      this.set_select_text_hook();
     });
-    electronAPI.onFinishTranslate((_event, translate_str) => {
-      this.translate_text = translate_str;
-    })
+    electronAPI.onFinishTranslate((_event, translate_text) => {
+      this.translate_text = translate_text;
+    });
   },
   methods: {
-    getSelectText() {
+    set_select_text_hook() {
       let _this = this;
       let iframe = document.getElementById('pdfviewer');
       iframe.contentWindow.addEventListener('mouseup', function () {
@@ -86,31 +85,26 @@ export default {
         if (choose.length == 0)
           return;
         _this.origin_text = choose;
-        _this.origin_text = "  " + _this.origin_text.replace(/[\.][\r\n]/g, "\t").replace(/[-][\r\n]/g, "").replace(/[\r\n]/g, " ").replace(/[\t]/g, ".\n  ");
-        translate(_this.translate_machine, _this.origin_text, (res) => {
-          _this.translate_text = res;
-        });
+        _this.origin_text = _this.origin_text.replace(/[\.][\r\n]/g, "\t").replace(/[-][\r\n]/g, "").replace(/[\r\n]/g, " ").replace(/[\t]/g, ".\n ");
+        if (_this.origin_text[0] != " ")
+          _this.origin_text = " " + _this.origin_text;
+        translate(_this.translate_machine, _this.origin_text);
       }, true);
       this.$forceUpdate();
     },
     origin_text_change() { //重新翻译
-      this.origin_text = this.origin_text.replace(/[\r\n]/g, "");
-      translate(this.translate_machine, this.origin_text, (res) => {
-        this.translate_text = res;
-      });
+      translate(this.translate_machine, this.origin_text);
       this.$forceUpdate();
     },
     translate_select() {
-      if(this.origin_text.length == 0) {
+      if (this.origin_text.length == 0) {
         this.$forceUpdate();
-        return ;
+        return;
       }
-      translate(this.translate_machine, this.origin_text, (res) => {
-        this.translate_text = res;
-      });
+      translate(this.translate_machine, this.origin_text);
       this.$forceUpdate();
     },
-    translate_machine_change() {
+    translate_machine_config() {
       let _this = this;
       _this.dialogVisible = true;
       electron.ipcRenderer.invoke('get_config', this.translate_machine).then((data) => {
