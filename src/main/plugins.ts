@@ -46,7 +46,7 @@ async function plugins_load(mainWindow, config) {
     if (stats.isFile()) {
       try {
         const ctx = require(filepath.substr(0, filepath.length - 3) + ".js");
-        let ctx_plugins = ctx.app(ctx_main);// @ts-ignore.
+        let ctx_plugins = ctx.app(ctx_main);
         ctx_plugins.TranslateRegister();
         cxt_array[ctx_plugins.TranslateName] = ctx_plugins;
       } catch (e) {
