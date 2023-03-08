@@ -1,6 +1,6 @@
 {
   "name": "simple_pdf_translator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple pdf viewer with translate function",
   "main": "build/main/main.js",
   "scripts": {
